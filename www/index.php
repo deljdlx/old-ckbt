@@ -1,6 +1,7 @@
 <?php
 
 require(__DIR__ . '/../source/bootstrap.php');
+header('Content-type: text/html; charset="utf-8"');
 ?>
 
 <html>
