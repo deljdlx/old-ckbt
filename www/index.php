@@ -13,11 +13,13 @@ require(__DIR__ . '/../source/bootstrap.php');
 <body>
 
 
-<div>
-    Passer la souris sur les phrases en gras pour surligner leurs ocurrences.
-</div>
+
 <div class="container">
-    <div id="filedrop" class="">Drop text file here</div>
+    <div id="filedrop" class="">
+        Glisser déposer un fichier texte ici<hr/>
+        Passer la souris sur les phrases en gras pour surligner leurs ocurrences.
+
+    </div>
 </body>
 </div>
 

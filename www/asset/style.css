@@ -67,7 +67,7 @@ span.sentence.blur {
     font-size:30px;
     color:#999;
     text-align: center;
-    padding-top:80px;
+    padding-top:16px;
     transition: all 0.3s;
 }
 #filedrop.dragOver {
