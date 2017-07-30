@@ -2,6 +2,10 @@
 
 require(__DIR__.'/../source/bootstrap.php');
 
+ini_set('memory_limit', '600M');
+
+$file = new \CKBT\File(__DIR__.'/../test/lorem1.txt');
+
 $arguments = $argv;
 
 
@@ -22,7 +26,20 @@ foreach ($filePathes as $path) {
 $doublons=$comparator->compareAll();
 
 
-foreach ($doublons as $doublon) {
+/**
+ * @var \CKBT\Match[] $doublons
+ */
+
+foreach ($doublons as $match) {
+
+
+    foreach ($match->getOccurances() as $occurance) {
+        echo $occurance['source']->getPath().':'.$occurance['offset']."\t";
+    }
+    echo $match->getSentence()->normalize()."\n";
+
+
+    /*
     echo
             $doublon->getSource()."\t".
             $doublon->getSourceSentence()->getOffset()."\t".
@@ -33,6 +50,7 @@ foreach ($doublons as $doublon) {
 
             $doublon->getSourceSentence();
     echo "\n";
+    */
 }
 
 

@@ -1,0 +1,77 @@
+html {
+    font-family: sans-serif;
+}
+
+br {
+    margin-bottom: 16px;
+}
+
+div {box-sizing: border-box;}
+
+
+
+div.file {
+    position: relative;
+    margin: 16px;
+    margin-top: 0;
+    border: solid 1px #AAA;
+    padding: 8px;
+    float: left;
+    max-width: 500px;
+    height: 75%;
+    overflow: auto;
+}
+
+
+.doublon {
+    /*background-color:#FFE;*/
+    font-weight: bold;
+    border: solid 1px #CCC;
+}
+
+span.sentence.hightlight {
+    background-color:#FFA;
+    opacity:1 !important;
+}
+
+span.sentence.blur {
+    opacity: 0.3;
+}
+
+
+.delete {
+    pointer: cursor;
+    position: absolute;
+    right: 16px;
+    color: #A00;
+}
+
+.delete:hover {
+    color:#F00;
+}
+
+
+
+.container {
+
+}
+
+
+
+#filedrop {
+    height: 250px;
+    width: 400px;
+    margin: 16px;
+    background-color:#CCC;
+    margin-right: 20px;
+    font-size:30px;
+    color:#999;
+    text-align: center;
+    padding-top:80px;
+    transition: all 0.3s;
+}
+#filedrop.dragOver {
+    background-color:#FFA;
+}
+
+
