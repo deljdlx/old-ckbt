@@ -60,7 +60,20 @@ Pour changer les stratégies de détection de doublons, aller dans les fichiers 
 - L'aspect sécurité et gestion des erreurs a été quasiment ignoré pour la démonstration
 - Pas de couche routeur/application/configuration ; car inutile dans le cadre de la démo
 
-## A compléter
+## Vers l'infini et au delà
+
+- Chargement dynamique des stratégies par configuration
+- Nettoyage et code hinting du code
+- Parallélisation des stratégies
+- Réelle UX
+- Fuzzy détection
+
+
+
+
+
+ 
+ 
 
 
 
