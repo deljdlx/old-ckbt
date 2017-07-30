@@ -27,7 +27,7 @@ php -S localhost:8080
  
  Cliquer sur la croix rouge pour retirer un fichier de la comparaison
  
- 
+ Démo en ligne : http://demo.jlb.ninja/ckbt/www/
  
 ## Test console
  
