@@ -104,7 +104,7 @@ die('EXIT '.__FILE__.'@'.__LINE__);
 foreach ($doublons as $match) {
     $occuranceDescriptors = array();
 
-    foreach ($match->getOccurances() as $occurance) {
+    foreach ($match->getOccurrences() as $occurance) {
         $descriptors[] = array(
             'id' => $match->getSentence()->getFingerprint(
                 $occurance['source']->getFingerPrint() . '-' . $occurance['offset']

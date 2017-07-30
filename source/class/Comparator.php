@@ -31,7 +31,7 @@ class Comparator
     }
 
 
-    public function compareAll($withEmptySentence = false)
+    public function compareAllOk($withEmptySentence = false)
     {
         $doublons = array();
         $sentences = array();
@@ -81,8 +81,7 @@ class Comparator
                     else {
 
 
-                        $sentences[$key]['occurrences'][$source->getFingerPrint()]['source']=$source;
-
+                        $sentences[$key]['occurrences'][$source->getFingerPrint()]['source'] = $source;
 
 
                         $sentences[$key]['occurrences'][$source->getFingerPrint()]['offsets'][] = (int)$sentence->getOffset();
@@ -98,7 +97,6 @@ class Comparator
         }
 
 
-
         //filtrage des phrases apparaissant en plusieurs occurances
         foreach ($sentences as $descriptor) {
             if ($descriptor['sentence'] !== null) {
@@ -110,85 +108,13 @@ class Comparator
 
                     foreach ($occurenceByFile['offsets'] as $offset) {
 
-                        $match->addOccurance($occurenceByFile['source'], $offset);
+                        $match->addOccurrence($occurenceByFile['source'], $offset);
 
                     }
                 }
 
-                $doublons[]=$match;
-
-            }
-        }
-
-
-
-        return $doublons;
-    }
-
-
-    /**
-     * @param bool $withEmptySentence
-     * @return Match[]
-     */
-    public function compareAllOK($withEmptySentence = false)
-    {
-        $doublons = array();
-        $sentences = array();
-
-        //scan des phrases
-
-        $start = memory_get_usage();
-        $lastUsage = $start;
-
-        $i = 0;
-
-        foreach ($this->files as $indexSource => $source) {
-            while ($sentence = $source->getSentence()) {
-
-                $usage = memory_get_usage() - $start;
-                $currentUsage = $usage - $lastUsage;
-                $lastUsage = $usage;
-
-                $i++;
-
-                //echo $i."\t".$usage."\t".$currentUsage;
-                //echo "\n";
-
-                $key = $sentence->getHash();
-                //on ne traite que les lignes non vides
-                if (strlen(trim($sentence)) || $withEmptySentence) {
-                    if (!isset($sentences[$key])) {
-                        $sentences[$key] = array(
-                            'occurances' => array(
-                                array(
-                                    'source' => &$source,
-                                    'offset' => (int)$sentence->getOffset()
-                                )
-                            ),
-                            'sentence' => null
-                        );
-                    }
-
-                    else {
-                        $sentences[$key]['occurances'][] = array(
-                            'source' => $source,
-                            'offset' => $sentence->getOffset()
-                        );
-                        $sentences[$key]['sentence'] = $sentence;
-                    }
-                }
-            }
-        }
-
-
-        //filtrage des phrases apparaissant en plusieurs occurances
-        foreach ($sentences as $descriptor) {
-            if ($descriptor['sentence'] !== null) {
-                $match = new Match($descriptor['sentence']);
-                foreach ($descriptor['occurances'] as $descriptor) {
-                    $match->addOccurance($descriptor['source'], $descriptor['offset']);
-                }
                 $doublons[] = $match;
+
             }
         }
 
@@ -197,9 +123,9 @@ class Comparator
     }
 
 
-    /*
 
-    public function compareAllDumb()
+
+    public function compareAll()
     {
         $doublons = array();
 
@@ -210,59 +136,65 @@ class Comparator
 
             foreach ($this->files as $indexCompare => $compare) {
                 if ($indexCompare !== $indexSource && !isset($compared[(string)$source . '-' . (string)$compare])) {
-                    $doublons = array_merge($doublons, $this->compareFiles($source, $compare));
+
+
+                    $doublons = array_merge($doublons, $this->compareFiles($source, $compare, $doublons));
 
                     $compared[(string)$source . '-' . (string)$compare] = true;
                     $compared[(string)$compare . '-' . (string)$source] = true;
-
                 }
             }
         }
+
 
         return $doublons;
     }
 
 
+    public function compareFiles(File $source, File $compare, &$doublons)
+    {
 
 
-        public function compareFiles(File $source, File $compare)
-        {
-            $doublons = array();
+        while ($sourceSentence = $source->getSentence()) {
 
-            while ($sourceSentence = $source->getSentence()) {
+            while ($compareSentence = $compare->getSentence()) {
 
-                while ($compareSentence = $compare->getSentence()) {
+                if ($this->compareSentences($sourceSentence, $compareSentence)) {
 
-                    if ($this->compareSentences($sourceSentence, $compareSentence)) {
-                        $match = new Match($source, $compare, $sourceSentence, $compareSentence);
-                        $doublons[] = $match;
+                    if(!isset($doublons[$sourceSentence->getHash()])) {
+                        $match = new Match($sourceSentence);
+                        $doublons[$sourceSentence->getHash()]=$match;
                     }
-                }
 
-                $compare->rewind();
+                    $doublons[$sourceSentence->getHash()]->addOccurrence($source, $sourceSentence->getOffset());
+                    $doublons[$sourceSentence->getHash()]->addOccurrence($compare, $compareSentence->getOffset());
+                }
             }
 
-            $source->rewind();
-
-            return $doublons;
+            $compare->rewind();
         }
 
+        $source->rewind();
 
-        protected function compareSentences($source, $compare)
-        {
-            if (is_callable($this->comparator)) {
-                return call_user_func_array($this->comparator, array($source, $compare));
+        return $doublons;
+    }
+
+
+    protected function compareSentences($source, $compare)
+    {
+        if (is_callable($this->comparator)) {
+            return call_user_func_array($this->comparator, array($source, $compare));
+        }
+        else {
+            if (trim($source) === trim($compare)) {
+                return true;
             }
             else {
-                if (trim($source) === trim($compare)) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
+                return false;
             }
         }
-    */
+    }
+
 
 }
 

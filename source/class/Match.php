@@ -16,15 +16,18 @@ class Match
         $this->sentence = $sentence;
     }
 
-    public function addOccurance($file, $offset)
+    public function addOccurrence(File $file, $offset)
     {
-        $this->occurances[] = array(
+        $key = $file->getFingerPrint() . '-' . $offset;
+        $this->occurances[$key] = array(
             'source' => $file,
             'offset' => $offset
         );
+
+        return $this;
     }
 
-    public function getOccurances()
+    public function getOccurrences()
     {
         return $this->occurances;
     }
