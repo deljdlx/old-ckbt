@@ -6,16 +6,7 @@ Ce projet permet de trouver les phrases apparaissant dans différents fichiers.
 Le concept de phrase est configurable par regexp. Par défaut une phrase est considérée comme
 étant une chaine de caractères terminée par un des caractère suivants: .?! ou un retour à la ligne.
 
-## Compléxité
-L'algorithme en terme de cyles de calcul à une compléxité égale à cette formule
- 
-Nombre de phrase total + nombre de doublons
 
--> Donc compléxité linéaire. 
-
-En terme de consommation mémoire, l'algorithme à peu près cette consomation
-
-Nombre de phrases * 60 octets
  
 
 

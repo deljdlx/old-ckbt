@@ -11,7 +11,7 @@ class Sentence
     private $offset;
     private $end;
 
-    public function __construct($offset, $content, $sentenceEnd)
+    public function __construct($offset, $content, $sentenceEnd = '')
     {
         $this->offset = $offset;
         $this->content = $content;
@@ -31,13 +31,17 @@ class Sentence
     public function getHash()
     {
         $normalized = $this->normalize($this->content);
-        return md5($normalized).crc32($normalized);
+        return md5($normalized) . crc32($normalized);
     }
 
     public function normalize()
     {
-
         return trim($this->content);
+    }
+
+    public function getContent()
+    {
+        return $this->content;
     }
 
 
@@ -46,6 +50,12 @@ class Sentence
         $this->end = $end;
         return $this;
     }
+
+    public function getEnd()
+    {
+        return $this->end;
+    }
+
 
 
     public function __toString()

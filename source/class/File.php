@@ -17,16 +17,21 @@ class File
 
     private $endOfFile = false;
 
+
     public function __construct($path)
     {
         $this->path = $path;
-        $this->pointer = fopen($this->path, 'r');
+
 
     }
 
 
     public function getSentence() /*@php_version:PHP7.1 : ?string*/
     {
+
+        if (!$this->pointer) {
+            $this->pointer = fopen($this->path, 'r');
+        }
 
         while (!preg_match('`' . $this->sentenceSeparator . '`ms', $this->currentBuffer)) {
             $buffer = fgets($this->pointer, 1024);
@@ -53,7 +58,7 @@ class File
         $this->currentBuffer = preg_replace('`.*?' . $this->sentenceSeparator . '(.*)`s', '$1', $this->currentBuffer);
 
 
-        if (!strlen($sentence.$sentenceEnd)) {
+        if (!strlen($sentence . $sentenceEnd)) {
             return $this->getSentence();
         }
         else {
@@ -80,14 +85,14 @@ class File
     public function wrapSentence($content, $sentenceEnd) /*@php_version:PHP7.0 : Sentence*/
     {
         $sentence = new Sentence($this->offset, $content, $sentenceEnd);
-        $this->offset += mb_strlen($content.$sentenceEnd);
+        $this->offset += mb_strlen($content . $sentenceEnd);
         return $sentence;
     }
 
 
     public function getFingerPrint()
     {
-        return md5($this->path);
+        return basename($this->path);
     }
 
 

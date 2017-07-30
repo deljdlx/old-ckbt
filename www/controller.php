@@ -6,30 +6,49 @@ require(__DIR__ . '/../source/bootstrap.php');
 $comparePath = __DIR__ . '/file';
 
 
+/*
+ * pas de vrai couche controleur ; pas eu le temps
+ */
+
+
 //=======================================================
 //upload
 if (!empty($_FILES)) {
     $data = reset($_FILES);
     $path = $data['tmp_name'];
     $destination = $comparePath . '/' . $data['name'];
+
+    //Attention pas de vérification si c'est bien un fichier texte
     move_uploaded_file($path, $destination);
 }
 
 //=======================================================
 
 
+
+
 //=======================================================
 //supression de fichier
 if (isset($_GET['delete'])) {
-    if (is_file($comparePath . '/' . $_GET['delete'])) {
-        unlink($comparePath . '/' . $_GET['delete']);
+
+    //securité ultra minimale
+    $cleaned=str_replace('../', '', $_GET['delete']);
+
+
+    if (is_file($comparePath . '/' . $cleaned)) {
+        unlink($comparePath . '/' . $cleaned);
     }
 }
 //=======================================================
 
 
-$comparator = new \CKBT\Comparator();
+//$comparator = new \CKBT\ComparatorStrategy\SQLite();
+//$comparator = new \CKBT\ComparatorStrategy\DumbAndCheap();
+$comparator = new \CKBT\ComparatorStrategy\Hash();
 
+
+
+//affichage des contenus des fichier dans www/file=====================================
 $dir = opendir($comparePath);
 ob_start();
 while ($fileName = readdir($dir)) {
@@ -55,36 +74,18 @@ while ($fileName = readdir($dir)) {
 
             echo '<span class="sentence" data-sentence-id="' . $id . '" data-sentence-hash="' . $hash . '">' . nl2br($sentence) . '</span>';
 
-            //echo '<span class="sentence" data-sentence-id="' . $id . '" data-sentence-hash="' . $hash . '">' . $sentence . '</span>';
         }
         $file->rewind();
         echo '</div>';
     }
 }
-
 $content = ob_get_clean();
+//===========================================================================
 
-/*
-$content = trim($content);
-$content = preg_replace("`\n+`s", "\n", $content);
-$content = preg_replace("`\n`s", "</p><p>", $content);
-$content = '<p>' . $content . '</p>';
-*/
-/*
-echo $content;
-die('EXIT '.__FILE__.'@'.__LINE__);
-*/
 
+
+//Détection des doublons=======================================================
 $doublons = $comparator->compareAll();
-
-/*
-echo '<pre id="' . __FILE__ . '-' . __LINE__ . '" style="border: solid 1px rgb(255,0,0); background-color:rgb(255,255,255)">';
-echo '<div style="background-color:rgba(100,100,100,1); color: rgba(255,255,255,1)">' . __FILE__ . '@' . __LINE__ . '</div>';
-print_r($doublons);
-echo '</pre>';
-die('EXIT '.__FILE__.'@'.__LINE__);
-*/
-
 $descriptors = array();
 
 
@@ -92,14 +93,6 @@ $descriptors = array();
  * @var $doublons \CKBT\Match[]
  */
 
-/*
-echo '<pre id="' . __FILE__ . '-' . __LINE__ . '" style="border: solid 1px rgb(255,0,0); background-color:rgb(255,255,255)">';
-echo '<div style="background-color:rgba(100,100,100,1); color: rgba(255,255,255,1)">' . __FILE__ . '@' . __LINE__ . '</div>';
-print_r($doublons);
-echo '</pre>';
-die('EXIT '.__FILE__.'@'.__LINE__);
-
-*/
 
 foreach ($doublons as $match) {
     $occuranceDescriptors = array();
@@ -115,21 +108,6 @@ foreach ($doublons as $match) {
 }
 
 
-/*
-foreach ($doublons as $doublon) {
-
-
-    $descriptors[] = array(
-        'sourceId' => $doublon->getSourceSentence()->getFingerprint($doublon->getSource()->getFingerPrint()),
-        'compareId' => $doublon->getCompareSentence()->getFingerPrint($doublon->getComparisonFile()->getFingerPrint()),
-
-
-        'source' => (string)$doublon->getSource(),
-        'comparison' => (string)$doublon->getComparisonFile()
-    );
-}
-*/
-
 
 header('Content-type: application/json');
 echo json_encode(array(
@@ -137,6 +115,8 @@ echo json_encode(array(
     'doublons' => $descriptors
 ));
 
+
+//=========================================================================
 
 
 

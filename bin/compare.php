@@ -15,7 +15,23 @@ $filePathes = $argv;
 
 
 
-$comparator=new \CKBT\Comparator();
+if(empty($filePathes)) {
+    $filePathes=array(
+        __DIR__.'/../www/file/lorem0.txt',
+        __DIR__.'/../www/file/lorem1.txt',
+        __DIR__.'/../www/file/lorem2.txt',
+        __DIR__.'/../www/file/lorem3.txt',
+    );
+}
+
+
+
+
+
+//$comparator=new \CKBT\ComparatorStrategy\SQLite();
+//$comparator=new \CKBT\ComparatorStrategy\DumbAndCheap();
+$comparator=new \CKBT\ComparatorStrategy\Hash();
+
 
 foreach ($filePathes as $path) {
     $file = new \CKBT\File($path);
@@ -33,24 +49,10 @@ $doublons=$comparator->compareAll();
 foreach ($doublons as $match) {
 
 
-    foreach ($match->getOccurances() as $occurance) {
-        echo $occurance['source']->getPath().':'.$occurance['offset']."\t";
+    foreach ($match->getOccurrences() as $occurance) {
+        echo realpath($occurance['source']->getPath()).':'.$occurance['offset']."\t";
     }
-    echo $match->getSentence()->normalize()."\n";
-
-
-    /*
-    echo
-            $doublon->getSource()."\t".
-            $doublon->getSourceSentence()->getOffset()."\t".
-
-            $doublon->getComparisonFile()."\t".
-            $doublon->getCompareSentence()->getOffset()."\t".
-
-
-            $doublon->getSourceSentence();
-    echo "\n";
-    */
+    echo $match->getSentence()."\n";
 }
 
 
