@@ -1,4 +1,4 @@
-# Détecteur de doublons de phrases dans différents fichier
+# Détecteur de doublons de phrases
 
 ## Présentation
 Ce projet permet de trouver les phrases apparaissant dans différents fichiers.
