@@ -60,6 +60,7 @@ Pour changer les stratégies de détection de doublons, aller dans les fichiers 
 - L'aspect sécurité et gestion des erreurs a été quasiment ignoré pour la démonstration
 - Pas de couche routeur/application/configuration/... ; car inutile dans le cadre de la démo
 - Algorithmes non optimaux pour du traitement de logs
+- Mis à part jQuery et Fontawesome tout le code source est "personnel"
 
 ## Vers l'infini et au delà
 
