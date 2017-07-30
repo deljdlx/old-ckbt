@@ -42,6 +42,13 @@ if (isset($_GET['delete'])) {
 //=======================================================
 
 
+
+/**
+ *
+ * CHANGER LES STRATEGIES ICI
+ *
+ */
+
 //$comparator = new \CKBT\ComparatorStrategy\SQLite();
 //$comparator = new \CKBT\ComparatorStrategy\DumbAndCheap();
 $comparator = new \CKBT\ComparatorStrategy\Hash();

@@ -25,7 +25,11 @@ if(empty($filePathes)) {
 }
 
 
-
+/**
+ *
+ * CHANGER LES STRATEGIES ICI
+ *
+ */
 
 
 //$comparator=new \CKBT\ComparatorStrategy\SQLite();
