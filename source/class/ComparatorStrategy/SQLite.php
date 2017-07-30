@@ -12,6 +12,7 @@ class SQLite extends Comparator
 {
 
 
+    //attention, requêtes SQL en mode sale
     public function compareAll($withEmptySentence = false)
     {
         $sqlite = new \SQLite3(':memory:');

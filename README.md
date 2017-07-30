@@ -55,18 +55,22 @@ Pour changer les stratégies de détection de doublons, aller dans les fichiers 
 
 ## Remarques
 
-- Pas de couche MVC ou autre car inutlie dans le cadre présent
-- La partie front web est fonctionnelle mais loin d'être un exemple d'expérience utilisateur exceptionnelle
+- Pas de couche MVC ou autre car inutlie dans le cadre de la démo
+- La partie front web est fonctionnelle mais loin d'être un exemple d'expérience utilisateur 
 - L'aspect sécurité et gestion des erreurs a été quasiment ignoré pour la démonstration
-- Pas de couche routeur/application/configuration ; car inutile dans le cadre de la démo
+- Pas de couche routeur/application/configuration/... ; car inutile dans le cadre de la démo
+- Algorithmes non optimaux pour du traitement de logs
 
 ## Vers l'infini et au delà
 
 - Chargement dynamique des stratégies par configuration
-- Nettoyage et code hinting du code
+- Sécurité à améliorer
+- Déclarer les interfaces adéquates pour le choix des stratégies 
+- Nettoyage et code hinting
 - Parallélisation des stratégies
 - Réelle UX
-- Fuzzy détection
+- Fuzzy détection des doublons
+- ...
 
 
 

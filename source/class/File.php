@@ -21,11 +21,12 @@ class File
     public function __construct($path)
     {
         $this->path = $path;
-
-
     }
 
 
+    /**
+     * @return bool|Sentence
+     */
     public function getSentence() /*@php_version:PHP7.1 : ?string*/
     {
 
@@ -68,6 +69,10 @@ class File
     }
 
 
+    /**
+     * @param $offset
+     * @return bool|Sentence
+     */
     public function getSentenceByOffset($offset)
     {
         fseek($this->pointer, $offset);
@@ -75,6 +80,9 @@ class File
     }
 
 
+    /**
+     * @return $this
+     */
     public function rewind()
     {
         fseek($this->pointer, 0);
@@ -82,6 +90,11 @@ class File
         return $this;
     }
 
+    /**
+     * @param $content
+     * @param $sentenceEnd
+     * @return Sentence
+     */
     public function wrapSentence($content, $sentenceEnd) /*@php_version:PHP7.0 : Sentence*/
     {
         $sentence = new Sentence($this->offset, $content, $sentenceEnd);
@@ -90,6 +103,10 @@ class File
     }
 
 
+    /**
+     * @return string
+     *
+     */
     public function getFingerPrint()
     {
         return basename($this->path);
@@ -102,6 +119,9 @@ class File
     }
 
 
+    /**
+     * @return mixed
+     */
     public function __toString()
     {
         return $this->path;

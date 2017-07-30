@@ -1,6 +1,5 @@
 <?php
-//phpinfo();
-//exit();
+
 require(__DIR__ . '/../source/bootstrap.php');
 ?>
 

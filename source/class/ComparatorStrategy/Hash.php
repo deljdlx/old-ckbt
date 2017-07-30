@@ -17,29 +17,15 @@ class Hash extends Comparator
 
         //scan des phrases
 
-        $start = memory_get_usage();
-        $lastUsage = $start;
-
-        $i = 0;
-
         foreach ($this->files as $indexSource => $source) {
             while ($sentence = $source->getSentence()) {
 
-                $usage = memory_get_usage() - $start;
-                $currentUsage = $usage - $lastUsage;
-                $lastUsage = $usage;
-
-                /*
-                $i++;
-                echo $i . "\t" . ($usage / (1048576)) . "\t" . $currentUsage . "\t" . (int)$sentence->getOffset() . "\t" . $source->getPath();
-                echo "\n";
-                */
 
                 $key = $sentence->getHash();
-                //on ne traite que les lignes non vides
 
                 $sourceKey = $source->getFingerPrint();
 
+                //on ne traite que les lignes non vides
                 if (strlen(trim($sentence))) {
 
                     if (!isset($sentences[$key])) {

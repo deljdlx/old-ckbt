@@ -40,7 +40,7 @@ class DumbAndCheap extends Comparator
     }
 
 
-    public function compareFiles(File $source, File $compare, &$doublons)
+    private function compareFiles(File $source, File $compare, &$doublons)
     {
 
         while ($sourceSentence = $source->getSentence()) {
@@ -68,7 +68,7 @@ class DumbAndCheap extends Comparator
     }
 
 
-    protected function compareSentences($source, $compare)
+    private function compareSentences($source, $compare)
     {
         if (is_callable($this->comparator)) {
             return call_user_func_array($this->comparator, array($source, $compare));
